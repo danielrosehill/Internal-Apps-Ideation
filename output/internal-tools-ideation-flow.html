@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internal Tools Workspace: Ideation Flow</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+        @page {
+            size: A4;
+            margin: 2cm 2cm 2.5cm 2cm;
+            @bottom-center {
+                content: "24 December 2025  •  Page " counter(page);
+                font-family: 'Inter', sans-serif;
+                font-size: 9pt;
+                color: #888;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.65;
+            color: #333;
+            max-width: 100%;
+        }
+
+        .title-page {
+            text-align: center;
+            padding-top: 35%;
+            page-break-after: always;
+        }
+
+        .title-page h1 {
+            font-size: 26pt;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 0.3em;
+        }
+
+        .title-page .subtitle {
+            font-size: 13pt;
+            color: #666;
+            font-weight: 400;
+            margin-bottom: 3em;
+        }
+
+        .title-page .author {
+            font-size: 11pt;
+            color: #444;
+        }
+
+        .title-page .date {
+            font-size: 10pt;
+            color: #888;
+            margin-top: 0.5em;
+        }
+
+        h1 {
+            font-size: 20pt;
+            font-weight: 700;
+            color: #111;
+            margin-top: 0;
+            margin-bottom: 0.6em;
+            page-break-after: avoid;
+        }
+
+        h2 {
+            font-size: 14pt;
+            font-weight: 600;
+            color: #222;
+            margin-top: 1.5em;
+            margin-bottom: 0.4em;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #333;
+            margin-top: 1.2em;
+            margin-bottom: 0.3em;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin: 0.7em 0;
+        }
+
+        ul, ol {
+            margin: 0.5em 0;
+            padding-left: 1.4em;
+        }
+
+        li {
+            margin: 0.25em 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9pt;
+            background: #f4f4f4;
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+        }
+
+        pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8.5pt;
+            background: #f8f8f8;
+            border: 1px solid #e8e8e8;
+            border-radius: 5px;
+            padding: 0.8em 1em;
+            overflow-x: auto;
+            line-height: 1.5;
+            page-break-inside: avoid;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .section {
+            page-break-before: always;
+        }
+
+        .section:first-of-type {
+            page-break-before: avoid;
+        }
+
+        .flow-indicator {
+            padding: 0.3em 0.8em;
+            border-radius: 4px;
+            font-size: 9pt;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 0.8em;
+            margin-right: 0.5em;
+        }
+
+        .flow-indicator.daniel {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+
+        .flow-indicator.ai {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .source-label {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            border-radius: 3px;
+            font-size: 8pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .source-label.input {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .source-label.output {
+            background: #ede9fe;
+            color: #5b21b6;
+            border: 1px solid #c4b5fd;
+        }
+
+        .workflow-note {
+            margin-top: 3em;
+            padding: 1.5em;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: left;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .workflow-note h3 {
+            font-size: 11pt;
+            margin-top: 0;
+            margin-bottom: 0.8em;
+            color: #334155;
+        }
+
+        .workflow-note p {
+            font-size: 9.5pt;
+            color: #64748b;
+            margin: 0.5em 0;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3em;
+            margin: 1.2em 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 0.5em 0.8em;
+            font-size: 8.5pt;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .flow-step.daniel-step {
+            border-color: #86efac;
+            background: #f0fdf4;
+        }
+
+        .flow-step.tool-step {
+            border-color: #fcd34d;
+            background: #fffbeb;
+        }
+
+        .flow-step.claude-step {
+            border-color: #c4b5fd;
+            background: #faf5ff;
+        }
+
+        .flow-step .step-label {
+            font-size: 7pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 0.2em;
+        }
+
+        .flow-step .step-name {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .flow-arrow {
+            color: #cbd5e1;
+            font-size: 14pt;
+        }
+
+        .transcript-box {
+            background: #fafafa;
+            border-left: 3px solid #ddd;
+            padding: 1em 1.2em;
+            margin: 1em 0;
+            font-size: 10pt;
+            line-height: 1.7;
+        }
+
+        .appendix-note {
+            background: #fff8e6;
+            border: 1px solid #ffe0a0;
+            border-radius: 5px;
+            padding: 0.8em 1em;
+            font-size: 9.5pt;
+            color: #806000;
+            margin: 1em 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 1.5em 0;
+        }
+
+        strong {
+            font-weight: 600;
+        }
+
+        .stack-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+            font-size: 10pt;
+        }
+
+        .stack-table td {
+            padding: 0.4em 0.8em;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stack-table td:first-child {
+            font-weight: 500;
+            width: 30%;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="title-page">
+    <h1>Internal Tools Workspace</h1>
+    <div class="subtitle">From Voice Note to Implementation Plan</div>
+    <div class="author">Daniel Rosehill</div>
+    <div class="date">24 December 2025</div>
+
+    <div class="workflow-note">
+        <h3>About This Document</h3>
+        <p>This document demonstrates a voice-to-implementation workflow. Starting from a long-form voice note, the process uses AI tools to transcribe, format, and generate actionable specifications and recommendations.</p>
+
+        <div class="flow-diagram">
+            <div class="flow-step daniel-step">
+                <span class="step-label">Daniel</span>
+                <span class="step-name">Voice Note</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step tool-step">
+                <span class="step-label">MCP</span>
+                <span class="step-name">Transcription</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step tool-step">
+                <span class="step-label">Gemini 2.5</span>
+                <span class="step-name">Cleanup</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step claude-step">
+                <span class="step-label">Claude Opus 4.5</span>
+                <span class="step-name">Spec + Plan</span>
+            </div>
+        </div>
+
+        <p style="font-size: 8.5pt; color: #94a3b8; margin-top: 1em;">Tools: Gemini Transcription MCP, Gemini 2.5 Flash, Claude Code (Opus 4.5)</p>
+    </div>
+</div>
+
+<div class="section">
+    <span class="flow-indicator daniel">Step 1: Input</span>
+    <span class="source-label input">Daniel</span>
+    <h1>The Idea (Cleaned-Up Voice Note)</h1>
+
+    <p><em>Transcribed using Gemini Transcription MCP and processed with Gemini 2.5 Flash. Lightly edited for readability. Original verbatim transcript in Appendix.</em></p>
+
+    <div class="transcript-box">
+        <p>The purpose of this voice note is to provide context about a workflow I'd really like to roll out properly in the coming year, 2026. I'll describe what I'm trying to achieve and what I haven't figured out yet.</p>
+
+        <p>With the rapid rise of AI, there are so many different workflows that are potentially helpful. I'll give an example of one that I just thought about. I was working on my whiteboard—one of those days where I feel I need to jot down what I need to get done. Mostly very boring stuff: filing tax returns, NFC tags I need to set up, cleaning.</p>
+
+        <p>So here's a workflow I thought about. I've done a few very effective ones with Nano Banana that have basically involved cleaning up a whiteboard. The use case was sketches for product ideas. But what I was thinking for this workflow—a catchy name might be something like "A Whiteboard a Day" or "My Daily Whiteboard."</p>
+
+        <p>I can clean up the whiteboard as I've done before, and that works really well. Not only that, it would create a Google Doc with my daily whiteboard. The photos go up to Gemini, which cleans them up firstly, and secondly extracts the data—basically a vision workflow kind of like OCR. Maybe do even a little bit of organization because whiteboards show connections. It can infer prioritization, sort the tasks. Today I have a mixture of business and personal tasks here. If it gave me a list like "24th of December: Personal tasks, bullet points; Business tasks, bullet points" and generated a Google Doc in a folder—that would be a great workflow.</p>
+
+        <h3>The Problem of Workflow Deployment</h3>
+
+        <p>Over the course of last year, I found quite a few workflows like this and a few have been very useful. Another one I want to roll out is an end-of-day log. It's a practice I really want to start doing because I like the idea of Kaizen—daily incremental improvement. I tend to sometimes say "I really want to finish this, I'm going to burn the midnight oil"—and it's a habit I want to get out of.</p>
+
+        <p>The driver for me is usually that if I don't do it this way, I won't remember where I left off. So I thought: record an end-of-day diary when I'm about to step away from the workstation—"this is where we're up to, these are the blockers, these are the projects"—generate a Google Doc from that, and in the morning I can look at my retrospective and pick up.</p>
+
+        <p>These are two workflow ideas intended as little assistants for my daily life and productivity. But neither is so monumental that I want it to be its own website or app.</p>
+
+        <h3>What I'm Getting At</h3>
+
+        <p>There's a lot of technology that's come to market in the last year. I love the Google website builder they rolled out in AI Studio. It's easier than ever with vibe coding to say "I want this, let's make it." The only question becomes deployment.</p>
+
+        <p>If I create a bunch of different utilities, the commonality as internal tools is probably authentication—because it's using Gemini API credits. I don't want anyone on the internet using my whiteboard cleaner and getting a bill for the whole internet using Gemini on my dime.</p>
+
+        <p>Authentication is a requirement to protect the API. The other thing is cross-platform. My whiteboard app makes more sense to use from my phone where I can take photos, upload, hit send. The backend architecture is pretty straightforward. It's purely a problem of frontend.</p>
+
+        <p>I frequently find myself asking: we can build all these utilities, they need to be authenticated, but I want a workspace. An app that is my AI assistant productivity center. Not a conversational app—bundling together standalone utilities. I can go into "Daniel's AI Workspace" or my company's "Internal Productivity Zone."</p>
+
+        <p>I have a VPS, Vercel, a home server. It's not that I'm lacking for places to put stuff. I'm trying to figure out the most sensible way. These are piecemeal apps—I might come up with eight over the course of the year. I want something I can add to. I work on these as modules—spend an hour getting the whiteboard thing working, then integrate it into my workspace. A wrapper I can add elements to.</p>
+
+        <h3>The Need for an AI Glue Framework</h3>
+
+        <p>What I'm looking for is not the flashy tool or framework—it's the glue. A framework whose purpose is to bundle together different AI tools. Not something like Divi where you're tied into using their system. I'd like to build these things custom. When you use Google AI Studio, you tend to get React or Vue frameworks. That's fine.</p>
+
+        <p>I just want a private environment where I can drop in my own modules. Most of the challenge is actually UI/UX. If I had a workspace on my phone with these different modules—the end-of-day thing, the whiteboard thing—all you need is a menu. A sidebar. You just need that navigation core to wrap around your elements, common authentication, and support for dropping in and deploying additional modules.</p>
+
+        <p>That's pretty much the spec I have in mind.</p>
+    </div>
+</div>
+
+<div class="section">
+    <span class="flow-indicator ai">Step 2: Specification</span>
+    <span class="source-label output">Claude Opus 4.5</span>
+    <h1>Formalized Requirements</h1>
+
+    <h2>Problem Statement</h2>
+    <p>Multiple standalone AI-powered utilities have been (or will be) developed independently. These tools:</p>
+    <ul>
+        <li>Are too small to warrant individual apps/websites</li>
+        <li>Share common needs: auth, API key management, cross-platform access</li>
+        <li>Currently lack a unified deployment and access strategy</li>
+    </ul>
+    <p><strong>What's needed:</strong> A framework/shell that bundles these existing utilities into a cohesive authenticated workspace.</p>
+
+    <h2>Core Requirements</h2>
+
+    <h3>1. Authentication Layer</h3>
+    <ul>
+        <li>Single login protects all modules</li>
+        <li>Prevents unauthorized API credit usage</li>
+        <li>Method: Google OAuth (simple, familiar)</li>
+    </ul>
+
+    <h3>2. Module Shell / Navigation</h3>
+    <ul>
+        <li>Desktop: Persistent sidebar</li>
+        <li>Mobile (Android): Hamburger menu</li>
+        <li>Modules render within the shell's content area</li>
+        <li>Smooth transitions between modules</li>
+    </ul>
+
+    <h3>3. Shared Environment Variables</h3>
+    <ul>
+        <li><code>GEMINI_API_KEY</code></li>
+        <li><code>OPENROUTER_API_KEY</code></li>
+        <li><code>REPLICATE_API_KEY</code></li>
+        <li>Google API credentials</li>
+    </ul>
+    <p>Modules inherit these without individual configuration.</p>
+
+    <h3>4. Cross-Platform Support</h3>
+    <ul>
+        <li><strong>Desktop:</strong> Browser-based</li>
+        <li><strong>Mobile:</strong> Android phone via browser (responsive)</li>
+        <li><strong>PWA:</strong> Installable on Android home screen</li>
+    </ul>
+
+    <h3>5. Module Integration Pattern</h3>
+    <ul>
+        <li>Self-contained module directories</li>
+        <li>Standard interface for mounting into the shell</li>
+        <li>Module isolation (one failure doesn't crash others)</li>
+    </ul>
+
+    <h2>Non-Requirements</h2>
+    <ul>
+        <li>Not building the AI utilities themselves (already handled)</li>
+        <li>Not a no-code/low-code platform</li>
+        <li>Not a conversational AI interface</li>
+        <li>Not deployed locally/self-hosted</li>
+    </ul>
+
+    <h2>Success Criteria</h2>
+    <ol>
+        <li>New module integrates in &lt;1 hour</li>
+        <li>One login, all modules accessible</li>
+        <li>Works on desktop browser and Android</li>
+        <li>Environment variables shared without per-module setup</li>
+    </ol>
+</div>
+
+<div class="section">
+    <span class="flow-indicator ai">Step 3: Recommendation</span>
+    <span class="source-label output">Claude Opus 4.5</span>
+    <h1>Implementation Approach</h1>
+
+    <h2>Stack</h2>
+    <table class="stack-table">
+        <tr><td>Framework</td><td>Next.js 14+ (App Router)</td></tr>
+        <tr><td>Auth</td><td>NextAuth.js with Google OAuth</td></tr>
+        <tr><td>Styling</td><td>Tailwind CSS</td></tr>
+        <tr><td>PWA</td><td>next-pwa</td></tr>
+        <tr><td>Deployment</td><td>Vercel</td></tr>
+        <tr><td>Domain</td><td>tools.dsrholdings.cloud</td></tr>
+    </table>
+
+    <h2>How It Works</h2>
+
+    <h3>Authentication</h3>
+    <p>NextAuth with Google OAuth, restricted to your email only. Middleware protects all routes—unauthenticated users see nothing.</p>
+
+    <h3>Shell Layout</h3>
+    <p>A shared layout wraps all pages:</p>
+    <ul>
+        <li>Desktop: 256px sidebar with module links</li>
+        <li>Mobile: Hamburger menu that slides out</li>
+        <li>Content area renders the active module</li>
+    </ul>
+
+    <h3>Adding a Module</h3>
+    <ol>
+        <li>Create folder: <code>src/app/new-module/page.tsx</code></li>
+        <li>Add to navigation array in Sidebar component</li>
+        <li>Implement the module UI</li>
+        <li>Push to GitHub → Vercel auto-deploys</li>
+    </ol>
+    <p>No routing config, no auth setup, no environment variable wiring.</p>
+
+    <h3>PWA for Android</h3>
+    <p>With <code>next-pwa</code> and a manifest.json:</p>
+    <ul>
+        <li>User visits site in Chrome</li>
+        <li>Prompted to "Add to Home Screen"</li>
+        <li>App installs with icon</li>
+        <li>Launches full-screen (no browser chrome)</li>
+        <li>Auth session persists</li>
+    </ul>
+
+    <h2>File Structure</h2>
+<pre>
+dsr-tools/
+  src/
+    app/
+      api/auth/[...nextauth]/route.ts
+      whiteboard/page.tsx
+      eod-log/page.tsx
+      layout.tsx
+      page.tsx
+    components/
+      Sidebar.tsx
+      MobileNav.tsx
+      SessionProvider.tsx
+    middleware.ts
+  public/
+    manifest.json
+    icons/
+  next.config.js
+  package.json
+</pre>
+
+    <h2>Deployment</h2>
+    <ol>
+        <li>Push to GitHub</li>
+        <li>Import to Vercel</li>
+        <li>Set environment variables once</li>
+        <li>Add custom domain</li>
+        <li>DNS: <code>CNAME tools cname.vercel-dns.com</code></li>
+    </ol>
+
+    <h2>Result</h2>
+    <ul>
+        <li>Single authenticated workspace at <code>tools.dsrholdings.cloud</code></li>
+        <li>Google login restricted to your email</li>
+        <li>Responsive sidebar (desktop) / hamburger (Android)</li>
+        <li>PWA installable on Android home screen</li>
+        <li>Modules are just folders under <code>/app</code></li>
+        <li>All API keys available via <code>process.env</code></li>
+        <li>Git push = deployed</li>
+    </ul>
+</div>
+
+<div class="section">
+    <span class="flow-indicator daniel">Appendix</span>
+    <span class="source-label input">Daniel</span>
+    <h1>Raw Voice Transcript</h1>
+
+    <div class="appendix-note">
+        This is the verbatim transcript before cleanup, showing the natural speech patterns including filler words, false starts, and corrections. Transcribed using Gemini Transcription MCP. Included to demonstrate the voice-to-document workflow.
+    </div>
+
+    <p style="font-size: 9pt; line-height: 1.7; color: #555;">
+        Okay, so the purpose of this uh voice note, um, that I will transcribe as usual using uh Whisper or Gemini is to uh provide a bit of context about um a, I guess workflow, work process that I'd really like to roll out uh properly in the coming year, 2026. And I'll describe sort of what I'm trying to achieve um, and what I haven't figured out yet. So with the rapid rise of AI and all that, um, there's just so many different workflows that are potentially helpful. And I'll give an example of one that I just thought about. I was working on a whiteboard, working on my whiteboard. It's one of those days where I feel like I need to jot down what I need to get done. Mostly very boring stuff like uh filing tax returns. Um, what else do I have up there at the moment? And then a few more interesting things about uh NFC tags I need to set up. Uh looking over now. Uh cleaning of course, another another scintillating task. So I have a few things and it really does help me to kind of have those just like written out on a whiteboard even if it's just on my office. I can kind of check on it. Um, so here's the workflow that I thought about. I've done a few um very effective ones with Nano Banana, um, that have basically involved cleaning up a whiteboard. So you take a whiteboard, you know, it's kind of a bit messy and cleaning it up. The use case for that was sketches for product ideas. Um, but what I was thinking in this work in this workflow is I take I was thinking of a name, a catchy name might be something like uh a whiteboard a day or my daily whiteboard or something like that. And I can um clean up the whiteboard as I've done before and that works really well. It's a it's a it's a very effective um workflow. And but not only that, it would create a Google doc um with my daily whiteboard. So in other words, the whiteboard or whiteboards, if I might occasionally um do a few of them. I take photos on my phone. Uh this is what I this is what I want to do today or even this week for that matter. Uh, the photos go up to Gemini, which uses Nano Banana to clean them up firstly. Um, and secondly to extract the data. So basically a vision workflow kind of like OCR, I guess. Really, uh a good workflow for Gemini because it's multimodal. Um, and maybe do even a little bit of organization because whiteboards show connections. Um, it can infer prioritization, it could sort the whiteboards. Like today for example, I have a mixture of business and personal tasks here. The business ones are the bureaucracy. Uh the personal ones are the the household stuff. Um, and if even if it gave me a list like today's date, 24th of December, personal tasks, task, bullet points, business tasks, task, bullet points and generated a Google Doc in a folder. That would be a great workflow. Now, here's what I'm, here's my question. Over the course of last year, I found quite a few workflows like this. Um, and a few of them have been very, very uh useful. Another one that I kind of want to roll out uh for my own sort of just work life balance, productivity planning, all the rest of it is an end of day log. It's a practice I really want to to start doing um because I really like the idea of Kaizen or daily incremental improvement and I tend to sometimes say I really want to finish this. I'm gonna go for it at all costs. I'm gonna have another cup of coffee. I'm gonna, you know, burn the midnight oil and it's really bad. And it's an hab, it's a habit I want to get out of. And what I've realized that um the driver for me is usually if I don't if I don't um do it this way, I won't remember where I left off, what the project was, blah, blah, blah. And therefore I've thought as a sort of hack for my own uh brain would be to record an end of day diary with just when I'm about to step away from the workstation for the day and say, okay, this is where we're up to. These are the blockers, these are the projects. Um, and then generate, record that as a voice memo maybe, generate a Google Doc from that. And then in the morning, I can look at my retrospective and say, okay, I'm ready to pick up. So these are two ideas of workflows that are um intended as, I guess, little assistance for me in my daily life and my productivity. But neither is so monumental that I want it to be like its own website or its own app. So what I'm getting to is this. Um, there's a lot of technology that's come to market in the last year. Um, I love the Google website builder and they rolled it out in AI Studio. It's easier than ever especially with Vibe coding to actually say, I want this. Let's make it. Let's do it. Great. Um, and the only question that I have becomes if I create deployment basically. Um, if I create a bunch of different utilities, the, they need to be, the commonality is as they're internal tools is probably authentication. Like, and that's only because it's using Gemini API credits. So I don't want anyone on the internet to be able to use my whiteboard cleaner and uh, you know, I'll get a bill for the whole of the internet using Gemini on my dime. Um, so I have authent, authentication is a requirement just to protect the the, you know, the API and the integrations. Um, but the most elegant and the other thing is cross platform. Uh, my whiteboard, for example, that app actually probably makes a lot more sense to I'd use that from my phone where I can just take photos, upload it, hit send and send it off to the, to the queue. Um, the whiteboard app is a good example actually, I think of an N8N workflow. Like I can see it being quite fairly straightforward to, to do that. Uh, a form capturing images, send, and then send that off to Gemini, uh, and then send, you know, create the Google Doc. So, I've done a lot of that stuff. Like the back end, um, architecture is is pretty straightforward or you can get, or you can vibe code your way to it. Um, so it's purely a problem in my mind, um, of front end in that I haven't really seen a, and I don't even know, like Streamlit's another example. Streamlit and Gradio, I've done a lot of tools using those things. And I frequently find myself asking, great, we can build all these utilities, they want to be authenticated, but I need, I want a workspace. I want like an app that is my AI assistant productivity center. It's not a conversational app. It's bundling together all these standalone utilities. So I can just go into my let's call it Daniel's AI workspace or my company's called yes or holdings. It could be yes or holdings um, I don't know, internal productivity zone or these are terrible names. But that's the idea. Um, and in terms of deployment, you know, I have a VPS, I have Vercel, I have a home server. Um, it's not that I'm lacking for places to put stuff. I'm just trying to figure out what's the most sensible way. Like what I want to do because these are kind of piecemeal apps, like uh, you know, I might have come up with eight of these over the course of the year. So it's not like a gigantic, you know, spiral of different things. Um, but it's more that I want to have something that I can create a new. I tend to work on these as modules, right? So I might spend an hour today, um, getting this workflow, the whiteboard thing working. Um, and then what I'd like to do is integrate that into my workspace. So it's kind of I'd like to have that kind of wrapper um, that I can add elements as I wish. And then the other thing that makes a lot of sense to me because these are would be my own internal tools, whatever. Um, I know in Versell, for example, you can share environment variables. So the ones I'm always using are Gemini, Open Router, um, Replicate, you know, probably five or six of them for different AI things. So that makes a lot of sense to me because if I could have like this space, I could share the variables. Um, I guess what I'm looking for to be more more concrete is there's a million and one great projects on GitHub and the internet and open source. And what I'm looking for is is not the, not the um, not the flashy tool or framework. It's the it's the glue. It's a framework that's whose the purpose is to bundle together different AI tools. And that isn't something like uh let's say, I'm trying to think of an example. Divi, I think is it called Divi? Oh, the names sound similar after a while. Um, where it's kind of you are tied into using their system to build it. No, I'd like to build these things are probably best custom built. Um, when you use Google AI Studio, you tend to get kind of React or Vue frameworks. That's fine for me. Um, but I again, I just want the sort of private environment where I have the ability to drop in my own uh modules, have a, and again, most of the challenge here is actually UI UX or it just simple things like that. Like if I had a workspace on my phone, and I have these different modules, we the end of day thing I talked about, the whiteboard thing, all you need is a menu basically. Like can be a sidebar and then on the desktop it can be another also a menu. You just need that navigation core um to wrap around your elements. Um, common authentication, and support for the ability to drop in and deploy additional modules. I would that's pretty much the spec that I have in mind here.
+    </p>
+</div>
+
+</body>
+</html>
