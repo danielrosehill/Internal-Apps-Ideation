@@ -17,11 +17,16 @@ Daniel has identified multiple useful AI workflows (whiteboard cleanup, end-of-d
 ## Key Requirements Under Consideration
 
 1. **Authentication** - Protect API credits (Gemini, OpenRouter, Replicate, etc.)
-2. **Cross-platform** - Works on mobile (for photo uploads) and desktop
+2. **Cross-platform** - Works on Android phone (for photo uploads) and desktop browser
 3. **Modular architecture** - Drop in new utilities as self-contained modules
 4. **Shared environment variables** - Common API keys across all modules
 5. **Simple navigation** - Sidebar/menu to switch between tools
 6. **Framework-agnostic** - Not locked into a specific platform's way of building
+
+## Mobile Context
+
+- **Phone OS**: Android
+- Primary mobile use cases: photo capture, voice recording, quick access to utilities
 
 ## Workflow Examples Being Considered
 
@@ -46,6 +51,7 @@ Daniel has available:
 - Home server with Docker services
 - N8N for backend workflows
 
-## Notes Location
+## Directory Structure
 
-Research notes and transcribed voice memos are in `/notes/`.
+- **`/input/`**: Source materials including the formal spec (`SPEC.md`) and transcribed voice memos
+- **`/output/`**: Research findings, framework evaluations, and recommendations generated during ideation
