@@ -5,8 +5,8 @@ This repository demonstrates a **voice-to-implementation workflow** — a proces
 ## Workflow Diagram
 
 ```mermaid
-flowchart LR
-    subgraph Input["👤 Daniel"]
+flowchart TD
+    subgraph Input["👤 User"]
         A[🎙️ Voice Note]
     end
 
@@ -41,17 +41,17 @@ Each stage of the workflow is preserved in this repository:
 
 | Stage | Source | Tool | File |
 |-------|--------|------|------|
-| 1. Voice Note | Daniel | — | [notes.mp3](input/notes.mp3) |
-| 2. Raw Transcript | Daniel | Gemini Transcription MCP | [voice-note-on-custom-ai-workflow-deployment.md](input/voice-note-on-custom-ai-workflow-deployment.md) |
-| 3. Cleaned Transcript | Daniel | Gemini 2.5 Flash | [workflow-ideas-for-ai-powered-productivity.md](input/workflow-ideas-for-ai-powered-productivity.md) |
-| 4. Formal Specification | Claude Opus 4.5 | Claude Code | [SPEC.md](input/SPEC.md) |
-| 5. Implementation Plan | Claude Opus 4.5 | Claude Code | [output3a-implementation-approach.md](output/turns/output3a-implementation-approach.md) |
+| 1. Voice Note | User | — | [View](input/notes.mp3) |
+| 2. Raw Transcript | User | AI (Gemini Transcription MCP) | [View](input/voice-note-on-custom-ai-workflow-deployment.md) |
+| 3. Cleaned Transcript | User | AI (Gemini 2.5 Flash) | [View](input/workflow-ideas-for-ai-powered-productivity.md) |
+| 4. Formal Specification | AI (Claude Opus 4.5) | AI (Claude Code) | [View](input/SPEC.md) |
+| 5. Implementation Plan | AI (Claude Opus 4.5) | AI (Claude Code) | [View](output/turns/output3a-implementation-approach.md) |
 
 ## Final Output
 
 The complete workflow — from raw voice note to implementation plan — is compiled into a single document:
 
-**[📄 View the PDF: Internal Tools Workspace — From Voice Note to Implementation Plan](output/internal-tools-ideation-flow.pdf)**
+**[📄 View PDF](output/internal-tools-ideation-flow.pdf)**
 
 ---
 
